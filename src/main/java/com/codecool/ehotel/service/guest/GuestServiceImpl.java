@@ -5,10 +5,7 @@ import com.codecool.ehotel.model.GuestType;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 
 public class GuestServiceImpl implements GuestService{
@@ -20,6 +17,13 @@ public class GuestServiceImpl implements GuestService{
             "Kate Winslet",
             "Timothy Swear"
     ));
+    private final List<Guest> allGuests = new ArrayList<>();
+    public GuestServiceImpl(int count, LocalDate seasonStart, LocalDate seasonEnd) {
+        while (count > 0) {
+            allGuests.add(generateRandomGuest(seasonStart, seasonEnd));
+            count--;
+        }
+    }
     @Override
     public Guest generateRandomGuest(LocalDate seasonStart, LocalDate seasonEnd) {
         Random random = new Random();
@@ -31,13 +35,25 @@ public class GuestServiceImpl implements GuestService{
         long maxStayLength = checkIn.until(seasonEnd, ChronoUnit.DAYS);
         long actualStayLength = random.nextLong(maxStayLength -1) + 1;
         LocalDate checkOut = checkIn.plus(actualStayLength, ChronoUnit.DAYS);
-        Guest guest = new Guest(name, GuestType.getRandomGuestType(), checkIn, checkOut);
 
-        return guest;
+        return new Guest(name, GuestType.getRandomGuestType(), checkIn, checkOut);
     }
 
     @Override
-    public Set<Guest> getGuestsForDay(List<Guest> guests, LocalDate date) {
-        return null;
+    public Set<Guest> getGuestsForDay(LocalDate date) {
+        Set<Guest> guestsForDay = new HashSet<>();
+        for (Guest guest : allGuests) {
+            if (isBetween(guest.checkIn(), guest.checkOut(), date)) {
+                guestsForDay.add(guest);
+            }
+        }
+        return guestsForDay;
+    }
+
+    public boolean isBetween(LocalDate start, LocalDate end, LocalDate date) {
+        return (date.isEqual(end) || (date.isAfter(start) && date.isBefore(end)));
+    }
+    public List<Guest> getAllGuests() {
+        return allGuests;
     }
 }
