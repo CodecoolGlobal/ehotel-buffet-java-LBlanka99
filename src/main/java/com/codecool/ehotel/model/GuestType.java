@@ -1,6 +1,8 @@
 package com.codecool.ehotel.model;
 
 import java.util.List;
+import java.util.Random;
+
 import static com.codecool.ehotel.model.MealType.*;
 
 public enum GuestType {
@@ -17,5 +19,11 @@ public enum GuestType {
 
     public List<MealType> getMealPreferences() {
         return mealPreferences;
+    }
+
+    public static GuestType getRandomGuestType() {
+        Random random = new Random();
+        GuestType[] guestTypes = values();
+        return guestTypes[random.nextInt(guestTypes.length)];
     }
 }

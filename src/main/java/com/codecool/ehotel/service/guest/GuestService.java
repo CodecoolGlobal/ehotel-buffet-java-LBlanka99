@@ -10,6 +10,8 @@ public interface GuestService {
 
     Guest generateRandomGuest(LocalDate seasonStart, LocalDate seasonEnd);
 
-    Set<Guest> getGuestsForDay(List<Guest> guests, LocalDate date);
+    Set<Guest> getGuestsForDay(LocalDate date);
+    boolean isBetween(LocalDate start, LocalDate end, LocalDate date);
+    List<Guest> getAllGuests();
 
 }
