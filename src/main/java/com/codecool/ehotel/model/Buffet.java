@@ -10,28 +10,29 @@ public record Buffet (List<Meal> meals) {
     }
 
     public boolean removeMeal(MealType type){
-        List<Meal> mealsOfAType = getMealsByType(type);
-        return meals.remove(mealsOfAType.get(0));
-    }
-
-    public List<Meal> getMealsByType(MealType type){
         List<Meal> mealsOfAType = new ArrayList<>();
 
         for (Meal meal : meals) {
-            if(meal.type().equals(type)){
+            if(meal.type() == type){
                 mealsOfAType.add(meal);
             }
         }
         mealsOfAType.sort((meal1, meal2)
                 -> meal2.timeStamp().compareTo(
-                        meal1.timeStamp()));
-        return  mealsOfAType;
+                meal1.timeStamp()));
+
+        try {
+            meals.remove(mealsOfAType.get(0));
+            return true;
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
     }
 
     public List<Meal> getMealsByDurability(MealDurability durability){
         List<Meal> mealsOfADurability = new ArrayList<>();
         for (Meal meal : meals) {
-            if(meal.type().getDurability().equals(durability)){
+            if(meal.type().getDurability() == durability){
                 mealsOfADurability.add(meal);
             }
         }
