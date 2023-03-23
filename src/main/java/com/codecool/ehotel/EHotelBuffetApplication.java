@@ -13,11 +13,13 @@ import java.util.List;
 public class EHotelBuffetApplication {
 
     public static void main(String[] args) {
-        final int amountOfGuests = 10000;
+        final int amountOfGuests = 120;
         final int amountOfBreakfastCycles = 8;
+        final LocalDate seasonStart = LocalDate.parse("2023-06-15");
+        final LocalDate seasonEnd = LocalDate.parse("2023-06-16");
 
         // Initialize services
-        GuestService guestService = new GuestServiceImpl(amountOfGuests, LocalDate.parse("2023-06-15"), LocalDate.parse("2023-08-17"));
+        GuestService guestService = new GuestServiceImpl(amountOfGuests, seasonStart, seasonEnd);
         List<LocalTime> timeTable = getTimeTable();
         BreakfastManager breakfastManager = new BreakfastManager(guestService, amountOfBreakfastCycles, timeTable);
         Buffet buffet = new Buffet(new ArrayList<>());
@@ -27,8 +29,7 @@ public class EHotelBuffetApplication {
         //List<Guest> guests = guestService.getAllGuests();
 
         // Run breakfast buffet
-
-        breakfastManager.serve(LocalDate.parse("2023-06-16"), buffet);
+        breakfastManager.run(seasonStart, seasonEnd, buffet);
 
     }
 

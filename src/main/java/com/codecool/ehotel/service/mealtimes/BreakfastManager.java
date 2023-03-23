@@ -25,6 +25,14 @@ public class BreakfastManager {
         this.timeTable = timeTable;
     }
 
+    public void run(LocalDate seasonStart, LocalDate seasonEnd, Buffet buffet) {
+        LocalDate currentDate = seasonStart.plusDays(1);
+        while (currentDate.isBefore(seasonEnd) || currentDate.isEqual(seasonEnd)) {
+            serve(currentDate, buffet);
+            currentDate = currentDate.plusDays(1);
+        }
+    }
+
     public void serve(LocalDate date, Buffet buffet) {
         int unhappyGuests = 0;
         int wasteCost = 0;
@@ -70,13 +78,16 @@ public class BreakfastManager {
         System.out.println("--------------------------------------------------------------");
     }
 
-    public Map<MealType, Integer> getOptimalPortions(Buffet buffet, int remainingBusiness, int remainingKids, int remainingTourists, int remainingCycles){
+    public Map<MealType, Integer> getOptimalPortions(Buffet buffet, int remainingBusiness, int remainingKids, int remainingTourists, double remainingCycles){
         Map<MealType, Integer> result = new HashMap<>();
 
+        double numberOfKidPreferences = GuestType.KID.getMealPreferences().size();
+        double numberOfBusinessPreferences = GuestType.BUSINESS.getMealPreferences().size();
+        double numberOfTouristPreferences = GuestType.TOURIST.getMealPreferences().size();
 
-        System.out.println("\nremaining cycle(s): " + remainingCycles);
+        System.out.println("\n*******************************************************************************************************************************************");
+        System.out.println("remaining cycle(s): " + remainingCycles);
 
-        //1st round, put longs AND short
         int pancakeAdd;
         int croissantAdd;
         int friedBaconAdd;
@@ -84,23 +95,30 @@ public class BreakfastManager {
         int sunnySideUpAdd;
         int scrambledEggsAdd;
 
+        //1st round, put longs AND shorts
         if(remainingCycles == groupCount){
             result.put(MealType.CEREAL, remainingKids);
             result.put(MealType.MILK, remainingKids);
 
-            pancakeAdd = (int) Math.round((remainingKids / 4.0d) * (3.0d / groupCount));
-            croissantAdd = (int) Math.round(remainingBusiness / 3.0d * (3.0d / groupCount));
-            friedBaconAdd = (int) Math.round(remainingBusiness / 3.0d * (2.0d / groupCount));
-            friedSausageAdd = (int) Math.round(remainingTourists / 5.0d * (2.0d/ groupCount));
-            sunnySideUpAdd  = (int) Math.round(remainingTourists / 5.0d * (2.0d/ groupCount));
-            scrambledEggsAdd = (int) Math.round(remainingBusiness / 3.0d * (2.0d / groupCount));
+            pancakeAdd = (int) Math.round((remainingKids / numberOfKidPreferences) * (2.0d / groupCount));
+            croissantAdd = (int) Math.round(remainingBusiness / numberOfBusinessPreferences * (2.0d / groupCount));
+            friedBaconAdd = (int) Math.round(remainingBusiness / numberOfBusinessPreferences * (2.0d / groupCount));
+            friedSausageAdd = (int) Math.round(remainingTourists / numberOfTouristPreferences * (2.0d/ groupCount));
+            sunnySideUpAdd  = (int) Math.round(remainingTourists / numberOfTouristPreferences * (2.0d/ groupCount));
+            scrambledEggsAdd = (int) Math.round(remainingBusiness / numberOfBusinessPreferences * (2.0d / groupCount));
         } else {
-            pancakeAdd = (int)Math.ceil(remainingKids / 4.0d * (1.0d / groupCount));
-            croissantAdd = (int)Math.ceil(remainingBusiness / 3.0d * (1.0d / groupCount));
-            friedBaconAdd = (int)Math.ceil(remainingBusiness / 3.0d * (1.0d / groupCount));
-            friedSausageAdd = (int)Math.ceil(remainingTourists / 5.0d * (1.0d/ groupCount));
-            sunnySideUpAdd  = (int)Math.ceil(remainingTourists / 5.0d * (1.0d/ groupCount));
-            scrambledEggsAdd = (int)Math.ceil(remainingBusiness / 3.0d * (1.0d / groupCount));
+            int currentPancakes = buffet.getMealsByType(MealType.PANCAKE).size();
+            pancakeAdd = (int) Math.max(Math.ceil(remainingKids / numberOfKidPreferences * ((groupCount - remainingCycles) / groupCount)) - currentPancakes, 0);
+            int currentCroissants = buffet.getMealsByType(MealType.CROISSANT).size();
+            croissantAdd = (int) Math.max(Math.ceil(remainingBusiness / numberOfBusinessPreferences * ((groupCount - remainingCycles) / groupCount)) - currentCroissants, 0);
+            int currentFriedBacons = buffet.getMealsByType(MealType.FRIED_BACON).size();
+            friedBaconAdd = (int) Math.max(Math.round(remainingBusiness / numberOfBusinessPreferences * ((groupCount - remainingCycles) / groupCount)) - currentFriedBacons, 0);
+            int currentFriedSausages = buffet.getMealsByType(MealType.FRIED_SAUSAGE).size();
+            friedSausageAdd = (int) Math.max(Math.floor(remainingTourists / numberOfTouristPreferences * ((groupCount - remainingCycles)/ groupCount)) - currentFriedSausages, 0);
+            int currentSunnySideUps = buffet.getMealsByType(MealType.SUNNY_SIDE_UP).size();
+            sunnySideUpAdd  = (int) Math.max(Math.round(remainingTourists / numberOfTouristPreferences * ((groupCount - remainingCycles)/ groupCount)) - currentSunnySideUps, 0);
+            int currentScrambledEggs = buffet.getMealsByType(MealType.SCRAMBLED_EGGS).size();
+            scrambledEggsAdd = (int) Math.max(Math.round(remainingBusiness / numberOfBusinessPreferences * ((groupCount - remainingCycles) / groupCount)) - currentScrambledEggs, 0);
         }
         result.put(MealType.PANCAKE, pancakeAdd);
         result.put(MealType.CROISSANT, croissantAdd);
@@ -116,9 +134,9 @@ public class BreakfastManager {
                 int amount = buffet.getMealsByType(mealtype).size();
                 int amountAdd;
                 if(mealtype == MealType.MUFFIN){
-                    amountAdd = Math.max((Math.round((float) remainingKids / 4)) + (Math.round((float) remainingTourists / 5) - amount), 0);
+                    amountAdd = (int) Math.max((Math.round( remainingKids / numberOfKidPreferences)) + (Math.round( remainingTourists / numberOfTouristPreferences) - amount), 0);
                 } else {
-                    amountAdd = (int)Math.max((Math.floor((double) remainingTourists / 5) - amount), 0);
+                    amountAdd = (int)Math.max((Math.round((double) remainingTourists / 5) - amount), 0);
                 }
 
                 result.put(mealtype, amountAdd);
