@@ -54,6 +54,7 @@ public class BreakfastManager {
                     System.out.println("Guest couldn't eat: " + mealType);
                 }
             }
+            System.out.println();
             if (i >= 2) {
                 wasteCost += buffetService.collectWaste(buffet, MealDurability.SHORT, timeTable.get(i - 2).plusMinutes(1));
 
@@ -73,7 +74,7 @@ public class BreakfastManager {
         Map<MealType, Integer> result = new HashMap<>();
 
 
-        System.out.println("\nremain cycle: " + remainingCycles);
+        System.out.println("\nremaining cycle(s): " + remainingCycles);
 
         //1st round, put longs AND short
         int pancakeAdd;
@@ -124,7 +125,7 @@ public class BreakfastManager {
             }
         }
 
-        System.out.println("Foods added: " + result);
+        System.out.println("Foods added: " + result + "\n");
         return result;
     }
 }
