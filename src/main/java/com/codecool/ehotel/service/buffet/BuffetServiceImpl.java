@@ -27,20 +27,22 @@ public class BuffetServiceImpl implements BuffetService {
     @Override
     public int collectWaste(Buffet buffet, MealDurability durability, LocalTime time) {
         List<Meal> mealsOfADurability = buffet.getMealsByDurability(durability);
-        int counter = 0;
+        int sumOfCosts = 0;
         for (Meal meal : mealsOfADurability) {
             if (meal.wasCreatedBefore(time)) {
-                counter += meal.type().getCost();
+                System.out.println("Food thrown out: " + meal.type());
+                sumOfCosts += meal.type().getCost();
                 buffet.meals().remove(meal);
             }
         }
-        return counter;
+        return sumOfCosts;
     }
 
     public int collectWasteWithoutTime(Buffet buffet, MealDurability durability) {
         List<Meal> mealsOfADurability = buffet.getMealsByDurability(durability);
         int counter = 0;
         for (Meal meal : mealsOfADurability) {
+            System.out.println("Food thrown out: " + meal.type());
             counter += meal.type().getCost();
             buffet.meals().remove(meal);
         }
