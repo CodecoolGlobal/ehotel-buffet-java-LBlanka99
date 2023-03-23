@@ -13,11 +13,13 @@ import java.util.List;
 public class EHotelBuffetApplication {
 
     public static void main(String[] args) {
+        final int amountOfGuests = 10000;
+        final int amountOfBreakfastCycles = 8;
 
         // Initialize services
-        GuestService guestService = new GuestServiceImpl(100, LocalDate.parse("2023-06-15"), LocalDate.parse("2023-06-17"));
+        GuestService guestService = new GuestServiceImpl(amountOfGuests, LocalDate.parse("2023-06-15"), LocalDate.parse("2023-08-17"));
         List<LocalTime> timeTable = getTimeTable();
-        BreakfastManager breakfastManager = new BreakfastManager(guestService, 8, timeTable);
+        BreakfastManager breakfastManager = new BreakfastManager(guestService, amountOfBreakfastCycles, timeTable);
         Buffet buffet = new Buffet(new ArrayList<>());
 
 
