@@ -1,8 +1,6 @@
 package com.codecool.ehotel;
 
 import com.codecool.ehotel.model.Buffet;
-import com.codecool.ehotel.model.Guest;
-import com.codecool.ehotel.model.MealType;
 import com.codecool.ehotel.service.guest.GuestService;
 import com.codecool.ehotel.service.guest.GuestServiceImpl;
 import com.codecool.ehotel.service.mealtimes.BreakfastManager;
@@ -10,9 +8,7 @@ import com.codecool.ehotel.service.mealtimes.BreakfastManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class EHotelBuffetApplication {
 
@@ -26,19 +22,11 @@ public class EHotelBuffetApplication {
 
 
         // Generate guests for the season
-        List<Guest> guests = guestService.getAllGuests();
+        //List<Guest> guests = guestService.getAllGuests();
 
         // Run breakfast buffet
-        Map<MealType, Integer> types = new HashMap<>();
-        types.put(MealType.CEREAL, 1);
-        types.put(MealType.MILK, 1);
-        types.put(MealType.CROISSANT, 1);
-        types.put(MealType.MUFFIN, 1);
-        types.put(MealType.BUN, 1);
-        types.put(MealType.SUNNY_SIDE_UP, 1);
-        types.put(MealType.PANCAKE, 1);
-        breakfastManager.serve(LocalDate.parse("2023-06-16"), buffet, types);
 
+        breakfastManager.serve(LocalDate.parse("2023-06-16"), buffet);
 
     }
 

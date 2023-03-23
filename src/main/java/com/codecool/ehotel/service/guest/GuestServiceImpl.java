@@ -31,21 +31,26 @@ public class GuestServiceImpl implements GuestService {
         Random random = new Random();
         int nameIndex = random.nextInt(possibleNames.size());
         String name = possibleNames.get(nameIndex);
+
         long seasonLength = seasonStart.until(seasonEnd, ChronoUnit.DAYS);
-        long amount = random.nextLong(seasonLength - 1);
+        long amount = random.nextLong(seasonLength);
+
+
         LocalDate checkIn = seasonStart.plus(amount, ChronoUnit.DAYS);
+
         long maxStayLength = checkIn.until(seasonEnd, ChronoUnit.DAYS);
-        long actualStayLength = random.nextLong(maxStayLength - 1) + 1;
+        long randStayLength = random.nextLong(maxStayLength+1);
+        long actualStayLength = randStayLength < 1 ? 1 : randStayLength;
         LocalDate checkOut = checkIn.plus(actualStayLength, ChronoUnit.DAYS);
 
         return new Guest(name, GuestType.getRandomGuestType(), checkIn, checkOut);
     }
 
     @Override
-    public List<Guest> getGuestsForDay(LocalDate date) {
+    public List<Guest> getGuestsForDay(LocalDate today) {
         List<Guest> guestsForDay = new ArrayList<>();
         for (Guest guest : allGuests) {
-            if (isBetween(guest.checkIn(), guest.checkOut(), date)) {
+            if (isBetween(guest.checkIn(), guest.checkOut(), today)) {
                 guestsForDay.add(guest);
             }
         }
