@@ -86,7 +86,7 @@ public class BreakfastManager {
         double numberOfTouristPreferences = GuestType.TOURIST.getMealPreferences().size();
 
         System.out.println("\n*******************************************************************************************************************************************");
-        System.out.println("remaining cycle(s): " + remainingCycles);
+        System.out.println("remaining cycle(s): " + (int) remainingCycles);
 
         int pancakeAdd;
         int croissantAdd;
@@ -136,7 +136,7 @@ public class BreakfastManager {
                 if(mealtype == MealType.MUFFIN){
                     amountAdd = (int) Math.max((Math.round( remainingKids / numberOfKidPreferences)) + (Math.round( remainingTourists / numberOfTouristPreferences) - amount), 0);
                 } else {
-                    amountAdd = (int)Math.max((Math.round((double) remainingTourists / 5) - amount), 0);
+                    amountAdd = (int)Math.max((Math.round( remainingTourists / numberOfTouristPreferences) - amount), 0);
                 }
 
                 result.put(mealtype, amountAdd);

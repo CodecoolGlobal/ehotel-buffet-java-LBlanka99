@@ -9,6 +9,7 @@ import java.util.*;
 
 
 public class GuestServiceImpl implements GuestService {
+    private final Random random = new Random();
     private final List<String> possibleNames = new ArrayList<>(List.of(
             "John Wick",
             "Susanne Heart",
@@ -28,7 +29,7 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public Guest generateRandomGuest(LocalDate seasonStart, LocalDate seasonEnd) {
-        Random random = new Random();
+
         int nameIndex = random.nextInt(possibleNames.size());
         String name = possibleNames.get(nameIndex);
 
@@ -73,7 +74,6 @@ public class GuestServiceImpl implements GuestService {
             dividedGuests.add(new ArrayList<>());
         }
         for (Guest guest : guests) {
-            Random random = new Random();
             int index = random.nextInt(groupCount);
             dividedGuests.get(index).add(guest);
         }
