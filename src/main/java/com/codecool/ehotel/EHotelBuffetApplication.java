@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 public class EHotelBuffetApplication {
     static Scanner scanner = new Scanner(System.in);
+    static final int cycleLengthInMinutes = 30;
 
     public static void main(String[] args) {
         final int amountOfGuests;
@@ -22,6 +23,7 @@ public class EHotelBuffetApplication {
         final LocalDate seasonStart;
         final LocalDate seasonEnd;
         final LocalTime breakfastStart;
+
 
         // Ask for data
         System.out.println("Hello! This is the e-hotel buffet simulator. You should give the data, and the program will simulate the breakfast runs for you!");
@@ -34,7 +36,8 @@ public class EHotelBuffetApplication {
 
         // Initialize services
         GuestService guestService = new GuestServiceImpl(amountOfGuests, seasonStart, seasonEnd);
-        List<LocalTime> timeTable = getTimeTable();
+        List<LocalTime> timeTable = getTimeTable(breakfastStart, amountOfBreakfastCycles);
+        System.out.println(timeTable);
         BreakfastManager breakfastManager = new BreakfastManager(guestService, amountOfBreakfastCycles, timeTable);
         Buffet buffet = new Buffet(new ArrayList<>());
 
@@ -47,8 +50,13 @@ public class EHotelBuffetApplication {
 
     }
 
-    private static List<LocalTime> getTimeTable() {
-        return List.of(LocalTime.of(6, 0), LocalTime.of(6, 30), LocalTime.of(7, 0), LocalTime.of(7, 30), LocalTime.of(8, 0), LocalTime.of(8, 30), LocalTime.of(9, 0), LocalTime.of(9, 30));
+    private static List<LocalTime> getTimeTable(LocalTime breakfastStart, int amountOfBreakfastCycles) {
+        List<LocalTime> timeTable = new ArrayList<>();
+        for (int i = 0; i < amountOfBreakfastCycles; i++) {
+            timeTable.add(breakfastStart.plusMinutes((long) i * cycleLengthInMinutes));
+        }
+
+        return timeTable;
     }
 
     private static int askForNumber(String question) {
