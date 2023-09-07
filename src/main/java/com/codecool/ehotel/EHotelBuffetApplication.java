@@ -37,13 +37,9 @@ public class EHotelBuffetApplication {
         // Initialize services
         GuestService guestService = new GuestServiceImpl(amountOfGuests, seasonStart, seasonEnd);
         List<LocalTime> timeTable = getTimeTable(breakfastStart, amountOfBreakfastCycles);
-        System.out.println(timeTable);
         BreakfastManager breakfastManager = new BreakfastManager(guestService, amountOfBreakfastCycles, timeTable);
         Buffet buffet = new Buffet(new ArrayList<>());
 
-
-        // Generate guests for the season
-        //List<Guest> guests = guestService.getAllGuests();
 
         // Run breakfast buffet
         breakfastManager.run(seasonStart, seasonEnd, buffet);
