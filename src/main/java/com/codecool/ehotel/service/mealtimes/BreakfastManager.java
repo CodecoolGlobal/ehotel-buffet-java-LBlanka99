@@ -127,8 +127,8 @@ public class BreakfastManager {
             double businessFoodAdd = remainingBusiness / numberOfBusinessPreferences * ((groupCount - remainingCycles) / groupCount);
             int currentCroissants = buffet.getMealsByType(MealType.CROISSANT).size();
             croissantAdd = (int) Math.max(Math.ceil(businessFoodAdd) - currentCroissants, 0);
-            int currentFriedBacons = buffet.getMealsByType(MealType.FRIED_BACON).size();
-            friedBaconAdd = (int) Math.max(Math.round(businessFoodAdd) - currentFriedBacons, 0);
+            int currentFriedBacon = buffet.getMealsByType(MealType.FRIED_BACON).size();
+            friedBaconAdd = (int) Math.max(Math.round(businessFoodAdd) - currentFriedBacon, 0);
             int currentScrambledEggs = buffet.getMealsByType(MealType.SCRAMBLED_EGGS).size();
             scrambledEggsAdd = (int) Math.max(Math.round(businessFoodAdd) - currentScrambledEggs, 0);
 
