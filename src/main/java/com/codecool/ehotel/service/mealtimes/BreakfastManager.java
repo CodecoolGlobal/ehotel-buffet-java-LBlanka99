@@ -101,24 +101,28 @@ public class BreakfastManager {
             result.put(MealType.MILK, remainingKids);
 
             pancakeAdd = (int) Math.round((remainingKids / numberOfKidPreferences) * (2.0d / groupCount));
-            croissantAdd = (int) Math.round(remainingBusiness / numberOfBusinessPreferences * (2.0d / groupCount));
-            friedBaconAdd = (int) Math.round(remainingBusiness / numberOfBusinessPreferences * (2.0d / groupCount));
-            friedSausageAdd = (int) Math.round(remainingTourists / numberOfTouristPreferences * (2.0d/ groupCount));
-            sunnySideUpAdd  = (int) Math.round(remainingTourists / numberOfTouristPreferences * (2.0d/ groupCount));
-            scrambledEggsAdd = (int) Math.round(remainingBusiness / numberOfBusinessPreferences * (2.0d / groupCount));
+            long businessFoodAdd = Math.round(remainingBusiness / numberOfBusinessPreferences * (2.0d / groupCount));
+            croissantAdd = (int) businessFoodAdd;
+            friedBaconAdd = (int) businessFoodAdd;
+            scrambledEggsAdd = (int) businessFoodAdd;
+            long touristFoodAdd = Math.round(remainingTourists / numberOfTouristPreferences * (2.0d / groupCount));
+            friedSausageAdd = (int) touristFoodAdd;
+            sunnySideUpAdd  = (int) touristFoodAdd;
         } else {
             int currentPancakes = buffet.getMealsByType(MealType.PANCAKE).size();
             pancakeAdd = (int) Math.max(Math.ceil(remainingKids / numberOfKidPreferences * ((groupCount - remainingCycles) / groupCount)) - currentPancakes, 0);
             int currentCroissants = buffet.getMealsByType(MealType.CROISSANT).size();
-            croissantAdd = (int) Math.max(Math.ceil(remainingBusiness / numberOfBusinessPreferences * ((groupCount - remainingCycles) / groupCount)) - currentCroissants, 0);
+            double businessFoodAdd = remainingBusiness / numberOfBusinessPreferences * ((groupCount - remainingCycles) / groupCount);
+            croissantAdd = (int) Math.max(Math.ceil(businessFoodAdd) - currentCroissants, 0);
             int currentFriedBacons = buffet.getMealsByType(MealType.FRIED_BACON).size();
-            friedBaconAdd = (int) Math.max(Math.round(remainingBusiness / numberOfBusinessPreferences * ((groupCount - remainingCycles) / groupCount)) - currentFriedBacons, 0);
+            friedBaconAdd = (int) Math.max(Math.round(businessFoodAdd) - currentFriedBacons, 0);
             int currentFriedSausages = buffet.getMealsByType(MealType.FRIED_SAUSAGE).size();
-            friedSausageAdd = (int) Math.max(Math.floor(remainingTourists / numberOfTouristPreferences * ((groupCount - remainingCycles)/ groupCount)) - currentFriedSausages, 0);
-            int currentSunnySideUps = buffet.getMealsByType(MealType.SUNNY_SIDE_UP).size();
-            sunnySideUpAdd  = (int) Math.max(Math.round(remainingTourists / numberOfTouristPreferences * ((groupCount - remainingCycles)/ groupCount)) - currentSunnySideUps, 0);
             int currentScrambledEggs = buffet.getMealsByType(MealType.SCRAMBLED_EGGS).size();
-            scrambledEggsAdd = (int) Math.max(Math.round(remainingBusiness / numberOfBusinessPreferences * ((groupCount - remainingCycles) / groupCount)) - currentScrambledEggs, 0);
+            scrambledEggsAdd = (int) Math.max(Math.round(businessFoodAdd) - currentScrambledEggs, 0);
+            double touristFoodAdd = remainingTourists / numberOfTouristPreferences * ((groupCount - remainingCycles) / groupCount);
+            friedSausageAdd = (int) Math.max(Math.floor(touristFoodAdd) - currentFriedSausages, 0);
+            int currentSunnySideUps = buffet.getMealsByType(MealType.SUNNY_SIDE_UP).size();
+            sunnySideUpAdd  = (int) Math.max(Math.round(touristFoodAdd) - currentSunnySideUps, 0);
         }
         result.put(MealType.PANCAKE, pancakeAdd);
         result.put(MealType.CROISSANT, croissantAdd);
