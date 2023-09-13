@@ -95,31 +95,46 @@ public class BreakfastManager {
         int sunnySideUpAdd;
         int scrambledEggsAdd;
 
-        //1st round, put longs AND shorts
+        //1st round
         if(remainingCycles == groupCount){
+            //put longs
             result.put(MealType.CEREAL, remainingKids);
             result.put(MealType.MILK, remainingKids);
 
+            //put shorts
+            //for kids
             pancakeAdd = (int) Math.round((remainingKids / numberOfKidPreferences) * (2.0d / groupCount));
+
+            //for business
             long businessFoodAdd = Math.round(remainingBusiness / numberOfBusinessPreferences * (2.0d / groupCount));
             croissantAdd = (int) businessFoodAdd;
             friedBaconAdd = (int) businessFoodAdd;
             scrambledEggsAdd = (int) businessFoodAdd;
+
+            //for tourists
             long touristFoodAdd = Math.round(remainingTourists / numberOfTouristPreferences * (2.0d / groupCount));
             friedSausageAdd = (int) touristFoodAdd;
             sunnySideUpAdd  = (int) touristFoodAdd;
+
+        //from 2nd round
         } else {
+            //put shorts
+            //for kids
             int currentPancakes = buffet.getMealsByType(MealType.PANCAKE).size();
             pancakeAdd = (int) Math.max(Math.ceil(remainingKids / numberOfKidPreferences * ((groupCount - remainingCycles) / groupCount)) - currentPancakes, 0);
-            int currentCroissants = buffet.getMealsByType(MealType.CROISSANT).size();
+
+            //for business
             double businessFoodAdd = remainingBusiness / numberOfBusinessPreferences * ((groupCount - remainingCycles) / groupCount);
+            int currentCroissants = buffet.getMealsByType(MealType.CROISSANT).size();
             croissantAdd = (int) Math.max(Math.ceil(businessFoodAdd) - currentCroissants, 0);
             int currentFriedBacons = buffet.getMealsByType(MealType.FRIED_BACON).size();
             friedBaconAdd = (int) Math.max(Math.round(businessFoodAdd) - currentFriedBacons, 0);
-            int currentFriedSausages = buffet.getMealsByType(MealType.FRIED_SAUSAGE).size();
             int currentScrambledEggs = buffet.getMealsByType(MealType.SCRAMBLED_EGGS).size();
             scrambledEggsAdd = (int) Math.max(Math.round(businessFoodAdd) - currentScrambledEggs, 0);
+
+            //for tourists
             double touristFoodAdd = remainingTourists / numberOfTouristPreferences * ((groupCount - remainingCycles) / groupCount);
+            int currentFriedSausages = buffet.getMealsByType(MealType.FRIED_SAUSAGE).size();
             friedSausageAdd = (int) Math.max(Math.floor(touristFoodAdd) - currentFriedSausages, 0);
             int currentSunnySideUps = buffet.getMealsByType(MealType.SUNNY_SIDE_UP).size();
             sunnySideUpAdd  = (int) Math.max(Math.round(touristFoodAdd) - currentSunnySideUps, 0);
