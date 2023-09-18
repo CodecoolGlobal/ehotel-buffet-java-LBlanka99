@@ -66,14 +66,13 @@ Before running the EHotel Buffet Management System, you'll need the following:
 </ul>
 
 ### Installation
-<ol>
-  <li>Clone the project repository to your local machine:
+1. Clone the project repository to your local machine:
   ```sh
   git clone git@github.com:CodecoolGlobal/ehotel-buffet-java-LBlanka99.git
   ```
-  </li>
-  <li>Open the project in your Java IDE.</li>
-</ol>
+
+2. Open the project in your Java IDE.
+
 
 
 ## Usage
