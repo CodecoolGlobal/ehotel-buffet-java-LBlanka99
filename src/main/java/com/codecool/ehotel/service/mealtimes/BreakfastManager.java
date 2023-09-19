@@ -18,6 +18,8 @@ public class BreakfastManager {
     private final List<LocalTime> timeTable;
     private final BuffetService buffetService = new BuffetServiceImpl();
     private final Random random = new Random();
+    private int allUnhappyGuests = 0;
+    private int allWastedCost = 0;
 
     public BreakfastManager(GuestService guestService, int groupCount, List<LocalTime> timeTable) {
         this.guestService = guestService;
@@ -26,14 +28,26 @@ public class BreakfastManager {
     }
 
     public void run(LocalDate seasonStart, LocalDate seasonEnd, Buffet buffet) {
+        int allBreakfastGuests = 0;
+
         LocalDate currentDate = seasonStart.plusDays(1);
         while (currentDate.isBefore(seasonEnd) || currentDate.isEqual(seasonEnd)) {
+            allBreakfastGuests += guestService.getGuestsForDay(currentDate).size();
             serve(currentDate, buffet);
             currentDate = currentDate.plusDays(1);
         }
+        System.out.println("\n*******************************************************************************************************************************************");
+        System.out.println("\n*******************************************************************************************************************************************");
+        System.out.println("\n--------------------------------------------------------------");
+        System.out.println("The amount of all unhappy guests in the season: " + allUnhappyGuests);
+        System.out.println("The number of guests of all breakfasts " + allBreakfastGuests);
+        System.out.println("The entire cost of all wasted food during the season: " + allWastedCost + " coins");
+        System.out.println("--------------------------------------------------------------");
     }
 
     public void serve(LocalDate date, Buffet buffet) {
+        System.out.println("\n*******************************************************************************************************************************************");
+        System.out.println("Day: " + date);
         int unhappyGuests = 0;
         int wasteCost = 0;
         List<List<Guest>> guests = guestService.dividingToGroups(groupCount, date);
@@ -76,6 +90,9 @@ public class BreakfastManager {
         System.out.println("All guests for the day: " + guestService.getGuestsForDay(date).size());
         System.out.println("The cost of wasted food: " + wasteCost + " coins");
         System.out.println("--------------------------------------------------------------");
+
+        allUnhappyGuests += unhappyGuests;
+        allWastedCost += wasteCost;
     }
 
     public Map<MealType, Integer> getOptimalPortions(Buffet buffet, int remainingBusiness, int remainingKids, int remainingTourists, double remainingCycles){
