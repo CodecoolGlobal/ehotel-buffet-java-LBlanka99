@@ -20,10 +20,10 @@
       <a href="#getting-started">Getting started</a>
 		 <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#how-to-start-the-project">How to start the project</a></li>
+	<li><a href="#usage">Usage</li>
      </ul>
     </li>
-    <li><a href="#usage">Usage</li>
   </ol>
 </details>
 
@@ -62,24 +62,27 @@ The EHotel Buffet Management System is built using the following technologies an
 Before running the EHotel Buffet Management System, you'll need the following:
 <ul>
   <li>Java Development Kit (JDK) 8 or higher installed.</li>
-  <li>A Java IDE (e.g., IntelliJ IDEA, Eclipse) for code editing and execution.</li>
 </ul>
 
-### Installation
+### How to start the project
 1. Clone the project repository to your local machine:
   ```sh
   git clone git@github.com:CodecoolGlobal/ehotel-buffet-java-LBlanka99.git
   ```
 
-2. Open the project in your Java IDE.
+2. Open terminal and navigate to the directory where you cloned the project, then enter into the classes folder in the target folder:
+   ```sh
+   cd /path/to/the/ehotel-buffet-java-LBlanka99/target/classes
+   ```
+3. Execute the program using the java command followed by the class name containing the main method:
+   ```sh
+   java com.codecool.ehotel.EHotelBuffetApplication
+   ```
 
 
-
-## Usage
-To use the EHotel Buffet Management System, follow these steps:
+### Usage
+To use the EHotel Buffet Management System after started it, follow these steps:
 <ol>
-  <li>Open the `EHotelBuffetApplication` class in your Java IDE.</li>
-  <li>Run the `main` method in the `EHotelBuffetApplication` class.</li>
   <li>Customize the necessary variables answering the questions to suit your specific season and buffet requirements:
     <ul>
       <li>Set the total number of guests.</li>
