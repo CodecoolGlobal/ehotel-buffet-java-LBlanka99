@@ -66,10 +66,9 @@ Before running the EHotel Buffet Management System, you'll need the following:
 
 ### How to start the project
 1. Clone the project repository to your local machine:
-  ```sh
-  git clone git@github.com:CodecoolGlobal/ehotel-buffet-java-LBlanka99.git
-  ```
-
+   ```sh
+   git clone git@github.com:CodecoolGlobal/ehotel-buffet-java-LBlanka99.git
+   ```
 2. Open terminal and navigate to the directory where you cloned the project, then enter into the classes folder in the target folder:
    ```sh
    cd /path/to/the/ehotel-buffet-java-LBlanka99/target/classes
