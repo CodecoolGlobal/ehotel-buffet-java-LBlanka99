@@ -40,7 +40,8 @@ During development I tried to achieve two goals:
   </li>
 </ol>
 
-The EHotel Buffet Management System is built to streamline the breakfast buffet service in a hotel during a specified season. It takes into account various guest types (e.g., Business, Tourist, Kids) and their meal preferences to ensure that the buffet serves a variety of meals that cater to guest needs.
+The EHotel Buffet Management System is built to streamline the breakfast buffet service in a hotel during a specified season. It takes into account various guest types (e.g., Business, Tourist, Kids) and their meal preferences to ensure that the buffet serves a variety of meals that cater to guest needs.<br><br>
+If you are interested, you can see a presentation about the project <a href="https://docs.google.com/presentation/d/1-4sDcWbfNPMpa2TYDZZrOEsdjG3cb7_C37N-FzGIZGc/edit?usp=sharing">here</a>.
 
 ### Features
 <ul>
